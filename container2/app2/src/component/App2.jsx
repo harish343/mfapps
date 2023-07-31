@@ -4,14 +4,14 @@ import "./App2.css"; // Import CSS file for styling
 
 const socket = io.connect("http://localhost:3005");
 const userName = "user2";
-
+const predefinedMessages = ["I am working", "I am Busy","Good night"];
 function App2() {
   const [message, setMessage] = useState("");
   const [messageReceived, setMessageReceived] = useState([]);
 
   const sendChat = (e) => {
     e.preventDefault();
-    socket.emit("send_messag", { message, userName });
+    socket.emit("send_message", { message, userName });
     setMessage("");
   };
 
@@ -20,6 +20,14 @@ function App2() {
       setMessageReceived([...messageReceived, payload]);
     });
   }, [messageReceived]); // Add messageReceived as a dependency to avoid multiple event listeners
+
+  const handlePredefinedClick = (predefinedMessage) => {
+    setMessage(predefinedMessage);
+
+    socket.emit("send_message", { message: predefinedMessage, userName });
+    setMessage("");
+
+  };
 
   return (
     <div className="App">
@@ -50,6 +58,18 @@ function App2() {
           />
           <button type="submit">Send</button>
         </form>
+        <div className="predefined-container">
+          {predefinedMessages.map((msg, index) => (
+            <button
+              key={index}
+              type="button"
+              className="predefined-button"
+              onClick={() => handlePredefinedClick(msg)}
+            >
+              {msg}
+            </button>
+          ))}
+        </div>
       </header>
     </div>
   );

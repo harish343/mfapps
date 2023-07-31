@@ -19,7 +19,7 @@ io.on("connection", (socket) => {
   // console.log("What is socket: ", socket);
   // console.log("Socket is active to be connected");
 
-  socket.on("send_messag", (payload) => {
+  socket.on("send_message", (payload) => {
     console.log("What is payload", payload);
     io.emit("receive_message", payload);
   });
