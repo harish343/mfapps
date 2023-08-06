@@ -1,9 +1,21 @@
 
 import React, { useState } from 'react';
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+
+const schema = yup.object({
+  name: yup.string().required().max(20, "Name must not exceed 20 characters").matches(/^[A-Z][a-z]*$/, "First name must start with a capital letter"),
+  IFSC: yup.string().required().matches(/^[A-Z]{4}\d{6}$/, "IFSC must have 4 characters and 6 numerical values"),
+  Branch: yup.string().required().max(20, "Name must not exceed 20 characters"),
+  Accountnum: yup.number().required().positive().min(1e9, "IFSC must be at least 9 digits").max(1e18, "IFSC must be at most 18 digits"),
+}).required();
 
 const Payeeform = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const { register, handleSubmit, formState:{ errors } } = useForm({
+    resolver: yupResolver(schema)
+  });
 
   const handleOpenForm = () => {
     setIsOpen(true);
@@ -13,9 +25,9 @@ const Payeeform = () => {
     setIsOpen(false);
   };
 
-  const handleSubmit = (e) => {
+  const onSubmit = () => {
     
-    e.preventDefault();
+   
 
     setuserform([...userform, state]);
     setState({
@@ -44,27 +56,33 @@ const Payeeform = () => {
       setState({ ...state, [e.target.name]: e.target.value });
   };
 
+  
 
 
   return (
     <>
     <div className="bg-white p-4 shadow-md rounded-md">
       {isOpen ? (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-2">
             <label htmlFor="name" className="block text-gray-700 font-bold mb-1 text-sm">
               Name
             </label>
             <input
               type="text"
+              {...register("name")}
               name="name"
               id="name"
               className="w-full p-1 border rounded-sm text-sm"
               placeholder="Enter your name"
               onChange={handleChange}
               value={state.name}
+              
               required
             />
+              <label htmlFor="email" className="block text-red-700 font-bold mb-1 text-sm">
+             {errors.name?.message}
+            </label>
           </div>
           <div className="mb-2">
             <label htmlFor="email" className="block text-gray-700 font-bold mb-1 text-sm">
@@ -72,6 +90,7 @@ const Payeeform = () => {
             </label>
             <input
               type="text"
+              {...register("IFSC")}
               id="IFSC"
               name="IFSC"
               onChange={handleChange}
@@ -80,13 +99,18 @@ const Payeeform = () => {
               placeholder="Enter your IFSC"
               required
             />
+              <label htmlFor="email" className="block text-red-700 font-bold mb-1 text-sm">
+             {errors.IFSC?.message}
+            </label>
           </div>
+          
           <div className="mb-2">
             <label htmlFor="email" className="block text-gray-700 font-bold mb-1 text-sm">
             Branch
             </label>
             <input
               type="text"
+              {...register("Branch")}
               id="Branch"
               name="Branch"
               onChange={handleChange}
@@ -95,6 +119,9 @@ const Payeeform = () => {
               placeholder="Enter your Branch"
               required
             />
+             <label htmlFor="email" className="block text-red-700 font-bold mb-1 text-sm">
+             {errors.Branch?.message}
+            </label>
           </div>
           <div className="mb-2">
             <label htmlFor="email" className="block text-gray-700 font-bold mb-1 text-sm">
@@ -102,6 +129,7 @@ const Payeeform = () => {
             </label>
             <input
               type="number"
+              {...register("Accountnum")}
               id="Accountnum"
               name="Accountnum"
               onChange={handleChange}
@@ -110,6 +138,10 @@ const Payeeform = () => {
               placeholder="Enter your Account Number"
               required
             />
+            <label htmlFor="email" className="block text-red-700 font-bold mb-1 text-sm">
+            {errors.Accountnum?.message}
+            </label>
+            <p></p>
           </div>
 
           <div className="flex justify-end">

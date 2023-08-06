@@ -1,6 +1,7 @@
 import React, { useState }  from "react";
 import ReactDOM from "react-dom";
 import Payeeform from "./component/Form"
+
 import "./index.scss";
 
 const App = () => {
