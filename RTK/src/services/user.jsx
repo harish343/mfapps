@@ -9,7 +9,7 @@ function User() {
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch('https://jsonplaceholder.typicode.com/users');
+      const response = await fetch('https://jsonplaceholder.typicode.com/posts');
       const jsonData = await response.json();
       console.log(jsonData)
       setPosts(jsonData);
@@ -24,8 +24,8 @@ function User() {
       <ul>
         {posts.map(post => (
           <li key={post.id}>
-            <h2>{post.name}</h2>
-            <p>{post.body}</p>
+            <h2>{post.title}</h2>
+            
           </li>
         ))}
       
