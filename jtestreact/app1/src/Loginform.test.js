@@ -16,14 +16,14 @@ test('handles form submission', () => {
   const passwordInput = screen.getByLabelText(/Password/i);
   const submitButton = screen.getByText(/Login/i);
 
-  // Simulate user input
+  
   fireEvent.change(emailInput, { target: { value: 'ram@example.com' } });
   fireEvent.change(passwordInput, { target: { value: 'password123' } });
 
-  // Simulate form submission
+ 
   fireEvent.click(submitButton);
 
-  // Assert that the form data is logged
+
   expect(console.log).toHaveBeenCalledWith('Login form submitted:', {
     email: 'ram@example.com',
     password: 'password123',

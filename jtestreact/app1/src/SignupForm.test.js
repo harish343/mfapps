@@ -1,4 +1,4 @@
-// SignupForm.test.js
+
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import SignupForm from './SignupForm';
@@ -18,16 +18,16 @@ test('handles form submission', () => {
   const passwordInput = screen.getByLabelText(/Password/i);
   const submitButton = screen.getByText(/Sign Up/i);
 
-  // Simulate user input
+  
   fireEvent.change(firstNameInput, { target: { value: 'Ram' } });
   fireEvent.change(lastNameInput, { target: { value: 'Rajput' } });
   fireEvent.change(emailInput, { target: { value: 'ram@example.com' } });
   fireEvent.change(passwordInput, { target: { value: 'password123' } });
 
-  // Simulate form submission
+ 
   fireEvent.click(submitButton);
 
-  // Assert that the form data is logged
+
   expect(console.log).toHaveBeenCalledWith('Signup form submitted:', {
     firstName: 'ram',
     lastName: 'rajput',
